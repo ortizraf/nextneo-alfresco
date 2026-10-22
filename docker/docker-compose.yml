@@ -1,5 +1,14 @@
 version: '3.4'
 services:
+  alfresco-proxy:
+    image: nginx:stable-alpine
+    ports:
+      - "${PROXY_PORT:-9999}:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - alfresco-share
+      - alfresco-acs
   alfresco-share:
     image: alfresco-share-alfresco:development
     build:
@@ -34,6 +43,8 @@ services:
         -Ddb.username=${POSTGRES_USER}
         -Ddb.password=${POSTGRES_PASSWORD}
         -Ddb.url=jdbc:postgresql://alfresco-postgres:5432/${POSTGRES_DB}
+        -Dalfresco.port=${PROXY_PORT:-9999}
+        -Dshare.port=${PROXY_PORT:-9999}
         "
       CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888"
     ports:

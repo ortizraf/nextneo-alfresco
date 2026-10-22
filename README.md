@@ -18,6 +18,8 @@ The repository includes `.env.dev`, `.env.hml`, and `.env.prod` with simulated v
 
 The default environment is `dev`. Select another environment as the second argument, for example `./run.sh start hml` or `./run.sh build_start prod`. Each environment has a distinct Compose project name, so Docker creates separate containers, networks, and persistent volumes.
 
+The Nginx proxy is available on port `9999` in all environments. Run only one environment at a time on the same machine because they share this host port. Opening the proxy root redirects to Share (`/share/`); Repository APIs are available under `/alfresco/`. Alfresco handles the login; Nginx forwards the requests and cookies. Direct ACS and Share ports remain mapped for development and integration tests.
+
 `./run.sh purge <environment>` permanently removes that environment's Compose volumes, including its database and Alfresco content data.
 
 The environment files and Docker Compose configuration are development templates. They do not provide an Enterprise Repository cluster or make Community suitable for active-active Repository nodes.
