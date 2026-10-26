@@ -203,7 +203,7 @@
     
     
     
-    <postgres.port>5555</postgres.port>
+    <mariadb.port>3306</mariadb.port>
                             
     
     
